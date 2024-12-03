@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Replace with your Neon DB connection string
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  quizAttempts QuizAttempt[]
+}
+
+model Subject {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  quizzes Quiz[]
+}
+
+model Quiz {
+  id          Int           @id @default(autoincrement())
+  name        String
+  subjectId   Int
+  subjectName String
+  subject     Subject       @relation(fields: [subjectId], references: [id])
+  questions   Question[]
+  attempts    QuizAttempt[]
+}
+
+model Question {
+  id              Int      @id @default(autoincrement())
+  text            String
+  options         Option[] @relation("QuestionOptions")
+  correctOptionId Int      @unique
+  correctOption   Option   @relation("CorrectOption", fields: [correctOptionId], references: [id])
+  quizId          Int
+  quiz            Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Option {
+  id         Int       @id @default(autoincrement())
+  text       String
+  questionId Int
+  question   Question  @relation("QuestionOptions", fields: [questionId], references: [id])
+  correctFor Question? @relation("CorrectOption")
+}
+
+model QuizAttempt {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  quizId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  score     Int
+  createdAt DateTime @default(now())
+}
