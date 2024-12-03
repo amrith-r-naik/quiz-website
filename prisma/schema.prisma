@@ -34,21 +34,19 @@ model Quiz {
 }
 
 model Question {
-  id              Int      @id @default(autoincrement())
-  text            String
-  options         Option[] @relation("QuestionOptions")
-  correctOptionId Int      @unique
-  correctOption   Option   @relation("CorrectOption", fields: [correctOptionId], references: [id])
-  quizId          Int
-  quiz            Quiz     @relation(fields: [quizId], references: [id])
+  id      Int      @id @default(autoincrement())
+  text    String
+  options Option[]
+  quizId  Int
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
 }
 
 model Option {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   text       String
   questionId Int
-  question   Question  @relation("QuestionOptions", fields: [questionId], references: [id])
-  correctFor Question? @relation("CorrectOption")
+  question   Question @relation(fields: [questionId], references: [id])
+  isCorrect  Boolean
 }
 
 model QuizAttempt {
