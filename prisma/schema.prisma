@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,13 +25,12 @@ model Subject {
 }
 
 model Quiz {
-  id          Int           @id @default(autoincrement())
-  name        String
-  subjectId   Int
-  subjectName String
-  subject     Subject       @relation(fields: [subjectId], references: [id])
-  questions   Question[]
-  attempts    QuizAttempt[]
+  id        Int           @id @default(autoincrement())
+  name      String
+  subjectId Int
+  subject   Subject       @relation(fields: [subjectId], references: [id])
+  questions Question[]
+  attempts  QuizAttempt[]
 }
 
 model Question {
