@@ -12,7 +12,7 @@ export const GET = async () => {
       JSON.stringify({ error: "Failed to fetch subjects" }),
       {
         status: 500,
-      }
+      },
     );
   }
 };
@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
       JSON.stringify({ error: "Failed to create subject" }),
       {
         status: 500,
-      }
+      },
     );
   }
 };

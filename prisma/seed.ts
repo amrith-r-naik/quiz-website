@@ -55,7 +55,7 @@ async function main() {
   async function createQuestionWithOptions(
     text: string,
     quizId: number,
-    options: { text: string; isCorrect: boolean }[]
+    options: { text: string; isCorrect: boolean }[],
   ) {
     const question = await prisma.question.create({
       data: { text, quizId },
@@ -102,7 +102,7 @@ async function main() {
       { text: "180 degrees", isCorrect: true },
       { text: "360 degrees", isCorrect: false },
       { text: "90 degrees", isCorrect: false },
-    ]
+    ],
   );
 
   await createQuestionWithOptions(
@@ -112,7 +112,7 @@ async function main() {
       { text: "Four equal sides", isCorrect: true },
       { text: "Three equal sides", isCorrect: false },
       { text: "No equal sides", isCorrect: false },
-    ]
+    ],
   );
 
   // Create Questions and Options for Physics Quiz
@@ -123,7 +123,7 @@ async function main() {
       { text: "Newton", isCorrect: true },
       { text: "Joule", isCorrect: false },
       { text: "Watt", isCorrect: false },
-    ]
+    ],
   );
 
   await createQuestionWithOptions(
@@ -133,7 +133,7 @@ async function main() {
       { text: "300,000 km/s", isCorrect: true },
       { text: "150,000 km/s", isCorrect: false },
       { text: "1,000 km/s", isCorrect: false },
-    ]
+    ],
   );
 
   // Create Questions and Options for Chemistry Quiz
@@ -144,7 +144,7 @@ async function main() {
       { text: "H2O", isCorrect: true },
       { text: "O2", isCorrect: false },
       { text: "CO2", isCorrect: false },
-    ]
+    ],
   );
 
   await createQuestionWithOptions(
@@ -154,11 +154,11 @@ async function main() {
       { text: "7", isCorrect: true },
       { text: "0", isCorrect: false },
       { text: "14", isCorrect: false },
-    ]
+    ],
   );
 
   console.log(
-    "Database seeded successfully with multiple subjects and quizzes!"
+    "Database seeded successfully with multiple subjects and quizzes!",
   );
 }
 

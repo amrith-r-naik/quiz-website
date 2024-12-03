@@ -11,7 +11,7 @@ export const GET = async (req: NextRequest) => {
       JSON.stringify({ error: "Subject ID is required" }),
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -27,7 +27,7 @@ export const GET = async (req: NextRequest) => {
       JSON.stringify({ error: "Failed to fetch quizzes" }),
       {
         status: 500,
-      }
+      },
     );
   }
 };
