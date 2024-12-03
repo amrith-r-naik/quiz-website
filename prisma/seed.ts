@@ -1,19 +1,3 @@
-// NOTE : Before seeding, do the following:
-// 1. Make the correctOptionId and correctOption fields in the Question table not required as below
-//      model Question {
-//        id              Int      @id @default(autoincrement())
-//        text            String
-//        options         Option[] @relation("QuestionOptions")
-//        correctOptionId Int?     @unique
-//        correctOption   Option?  @relation("CorrectOption", fields: [correctOptionId], references: [id])
-//        quizId          Int
-//        quiz            Quiz     @relation(fields: [quizId], references: [id])
-//      }
-// 2. Then do bunx prisma db push
-// 3. Next you can do the seeding with bunx prisma/seed.ts
-// 4. Once seeded reverse the changes made to the Question model in the schema
-// 5. Finally run bunx prisma db push to reverse the changes in the database as well.
-
 import prisma from "@/app/lib/prisma";
 
 async function main() {
@@ -65,19 +49,8 @@ async function main() {
       data: options.map((option) => ({
         text: option.text,
         questionId: question.id,
+        isCorrect: option.isCorrect,
       })),
-    });
-
-    const correctOption = await prisma.option.findFirst({
-      where: {
-        questionId: question.id,
-        text: options.find((opt) => opt.isCorrect)?.text,
-      },
-    });
-
-    await prisma.question.update({
-      where: { id: question.id },
-      data: { correctOptionId: correctOption!.id },
     });
   }
 
@@ -86,12 +59,14 @@ async function main() {
     { text: "3", isCorrect: false },
     { text: "4", isCorrect: true },
     { text: "5", isCorrect: false },
+    { text: "6", isCorrect: false },
   ]);
 
   await createQuestionWithOptions("Solve for x: 2x = 10.", algebraQuiz.id, [
     { text: "4", isCorrect: false },
     { text: "5", isCorrect: true },
     { text: "6", isCorrect: false },
+    { text: "7", isCorrect: false },
   ]);
 
   // Create Questions and Options for Geometry Quiz
@@ -102,6 +77,7 @@ async function main() {
       { text: "180 degrees", isCorrect: true },
       { text: "360 degrees", isCorrect: false },
       { text: "90 degrees", isCorrect: false },
+      { text: "270 degrees", isCorrect: false },
     ],
   );
 
@@ -112,6 +88,7 @@ async function main() {
       { text: "Four equal sides", isCorrect: true },
       { text: "Three equal sides", isCorrect: false },
       { text: "No equal sides", isCorrect: false },
+      { text: "Two equal sides", isCorrect: false },
     ],
   );
 
@@ -123,6 +100,7 @@ async function main() {
       { text: "Newton", isCorrect: true },
       { text: "Joule", isCorrect: false },
       { text: "Watt", isCorrect: false },
+      { text: "Volt", isCorrect: false },
     ],
   );
 
@@ -132,6 +110,7 @@ async function main() {
     [
       { text: "300,000 km/s", isCorrect: true },
       { text: "150,000 km/s", isCorrect: false },
+      { text: "200,000 km/s", isCorrect: false },
       { text: "1,000 km/s", isCorrect: false },
     ],
   );
@@ -144,6 +123,7 @@ async function main() {
       { text: "H2O", isCorrect: true },
       { text: "O2", isCorrect: false },
       { text: "CO2", isCorrect: false },
+      { text: "H2SO4", isCorrect: false },
     ],
   );
 
@@ -153,6 +133,7 @@ async function main() {
     [
       { text: "7", isCorrect: true },
       { text: "0", isCorrect: false },
+      { text: "14", isCorrect: false },
       { text: "14", isCorrect: false },
     ],
   );
