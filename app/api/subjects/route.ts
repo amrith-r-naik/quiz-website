@@ -9,7 +9,10 @@ export const GET = async () => {
     return NextResponse.json(subjects);
   } catch (error) {
     return new NextResponse(
-      JSON.stringify({ error: "Failed to fetch subjects" }),
+      JSON.stringify({
+        error: "Failed to fetch subjects",
+        details: (error as Error).message,
+      }),
       {
         status: 500,
       },

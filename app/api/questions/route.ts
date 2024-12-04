@@ -31,7 +31,7 @@ export const GET = async (req: NextRequest) => {
       where: { quizId: parseInt(quizId) },
       include: {
         options: {
-          select: { id: true, text: true, isCorrect: false },
+          select: { id: true, text: true, isCorrect: true },
         },
       },
     });
@@ -39,9 +39,6 @@ export const GET = async (req: NextRequest) => {
     // Return the fetched quiz and questions as a JSON response with status 200
     return NextResponse.json(questions, { status: 200 });
   } catch (error) {
-    // Log the error to the console
-    console.error("Error fetching questions:", error);
-
     // Return a 500 response with an error message
     return NextResponse.json(
       { error: "Failed to fetch questions", details: (error as Error).message },
@@ -114,7 +111,7 @@ export const POST = async (req: NextRequest) => {
       },
       include: {
         options: {
-          select: { id: true, text: true, isCorrect: false },
+          select: { id: true, text: true, isCorrect: true },
         },
       },
     });
