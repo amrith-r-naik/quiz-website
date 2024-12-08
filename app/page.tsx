@@ -1,3 +1,4 @@
+import ModeSwitcherButton from "@/components/mode-switcher";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
           Wanna practice those MCQ subjects?
         </h1>
         <Button>Yes</Button>
+        <ModeSwitcherButton />
       </main>
     </div>
   );
