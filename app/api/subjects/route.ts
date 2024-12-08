@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 // Get all subjects
 export const GET = async () => {
   try {
-    const subjects = await prisma.subject.findMany();
+    const subjects = await prisma.subject.findMany({
+      include: { quizzes: true },
+    });
     return NextResponse.json(subjects);
   } catch (error) {
     return new NextResponse(
