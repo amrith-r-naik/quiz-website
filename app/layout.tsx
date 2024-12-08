@@ -27,10 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} relative antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] relative antialiased flex h-screen w-screen overflow-x-hidden overflow-y-scroll p-4`}
       >
         <div
-          className="w-screen h-screen fixed z-50 bg-grain-image opacity-[0.07] mix-blend-lighten pointer-events-none"
+          className="w-screen h-screen fixed z-50 bg-grain-image opacity-5 mix-blend-lighten pointer-events-none top-0 left-0"
           style={{ backgroundSize: "110px" }}
         />
         <ThemeProvider
