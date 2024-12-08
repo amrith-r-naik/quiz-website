@@ -27,8 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} relative antialiased`}
       >
+        <div
+          className="w-screen h-screen fixed z-50 bg-grain-image opacity-[0.07] mix-blend-lighten pointer-events-none"
+          style={{ backgroundSize: "110px" }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
