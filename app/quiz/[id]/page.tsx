@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import QuestionComponent from "../question";
 import type { Quiz, Question } from "@/app/lib/types";
+import RefreshWarning from "@/components/refresh-warning";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -27,9 +28,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   if (!quiz) return <div>Unable to load quiz</div>;
   return (
     // Dummy implementation
-    <div className="w-full h-full flex flex-col items-center">
+    <div className="w-full h-full flex flex-col items-center md:px-[25%]">
+      <RefreshWarning />
       {/* Heading */}
-      <div className="w-full flex flex-col items-center gap-2 border-b pb-4">
+      <div className="w-full flex flex-col items-center gap-2 border-b pb-4 md:py-8">
         <h2 className="text-center scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
           Elements of Cloud Computing
         </h2>
@@ -38,7 +40,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </h2>
       </div>
       {/* Quiz Questions */}
-      <div className="w-full flex flex-col items-center gap-4 mt-4">
+      <div className="w-full flex flex-col items-center gap-4 mt-4 md:gap-8 md:mt-8">
         {questions.map((question, index) => (
           <QuestionComponent
             key={question.id}
