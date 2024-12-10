@@ -6,6 +6,8 @@ import type { Quiz, Question } from "@/app/lib/types";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [score, setScore] = useState(0);
+
   useEffect(() => {
     async function fetchQuiz() {
       const id = (await params).id;
@@ -16,6 +18,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     }
     fetchQuiz();
   }, [params]);
+
+  const updateScoreOnCorrect = () => {
+    setScore((prevScore) => prevScore + 1);
+  };
 
   // TODO: Implement a loading state
   if (!quiz) return <div>Unable to load quiz</div>;
@@ -38,8 +44,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             key={question.id}
             question={question}
             questionNumber={index + 1}
+            updateScoreOnCorrect={updateScoreOnCorrect}
           />
         ))}
+      </div>
+      {/* Score */}
+      <div className="w-full flex flex-col items-center gap-2 mt-4">
+        <h2 className="text-center text-xl font-semibold">
+          Score: {score} / {questions.length}
+        </h2>
       </div>
     </div>
   );
