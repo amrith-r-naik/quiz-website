@@ -22,24 +22,19 @@ type Subject = {
 };
 
 export default function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const router = useRouter();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState("");
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/api/subjects`);
-        const data = await response.json();
-        setSubjects(data);
-      } catch (error) {
-        console.error("Failed to fetch subjects:", error);
-      }
+      const response = await fetch(`/api/subjects`);
+      const data = await response.json();
+      setSubjects(data);
     };
 
     fetchSubjects();
-  }, [baseUrl]);
+  }, []);
   return (
     <main className="h-full w-full flex flex-col">
       {/* Hero Section */}
