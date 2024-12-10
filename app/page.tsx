@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ export default function Home() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const router = useRouter();
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [loading, setLoading] = useState("");
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -63,9 +65,17 @@ export default function Home() {
                         <p className="text-md">{quiz.name}</p>
                         <Button
                           size={"sm"}
-                          onClick={() => router.push(`/quiz/${quiz.id}`)}
+                          onClick={() => {
+                            router.push(`/quiz/${quiz.id}`);
+                            setLoading(quiz.id);
+                          }}
+                          className="w-20"
                         >
-                          Attempt
+                          {loading === quiz.id ? (
+                            <Loader2 className="animate-spin" />
+                          ) : (
+                            "Attempt"
+                          )}
                         </Button>
                       </li>
                     ))}
