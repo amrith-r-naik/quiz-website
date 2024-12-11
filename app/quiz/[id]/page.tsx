@@ -148,15 +148,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <Button variant={"secondary"}>Don&apos;t Save</Button>
                   </DialogClose>
                 </div> */}
-                <Button
+                <DialogClose
+                  asChild
                   onClick={() => {
                     setScore(0);
                     setShowSavePrompt(false);
                     router.refresh();
                   }}
                 >
-                  Attempt again
-                </Button>
+                  <Button>Attempt again</Button>
+                </DialogClose>
                 <Button variant={"outline"} onClick={() => router.push("/")}>
                   <Home />
                   Home
