@@ -1,5 +1,4 @@
 "use client";
-import ModeSwitcherButton from "@/components/mode-switcher";
 import {
   Accordion,
   AccordionContent,
@@ -99,11 +98,10 @@ export default function Home() {
       <div className="text-lg flex gap-2 w-full justify-center items-center">
         <Link
           href="https://github.com/amrith-r-naik/quiz-website"
-          className="text-sm hover:underline"
+          className="text-sm hover:underline underline md:no-underline"
         >
           Github
         </Link>
-        <ModeSwitcherButton />
       </div>
     </main>
   );
