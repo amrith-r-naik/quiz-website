@@ -25,12 +25,15 @@ export default function Home() {
   const router = useRouter();
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState("");
+  const [subjectsLoading, setSubjectsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSubjects = async () => {
+      setSubjectsLoading(true);
       const response = await fetch(`/api/subjects`);
       const data = await response.json();
       setSubjects(data);
+      setSubjectsLoading(false);
     };
 
     fetchSubjects();
@@ -42,6 +45,13 @@ export default function Home() {
         <h1 className="text-5xl font-black text-center">
           Practice those MCQ subjects
         </h1>
+
+        {subjectsLoading && (
+          <div className="flex gap-2 opacity-30 justify-center items-center">
+            <Loader2 className="animate-spin" />
+            <span className="">Loading subjects...</span>
+          </div>
+        )}
         <Accordion type="single" collapsible>
           {subjects.map((subject: Subject) => (
             <AccordionItem key={subject.id} value={subject.id}>
