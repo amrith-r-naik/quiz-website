@@ -3,7 +3,18 @@ import { useEffect, useState } from "react";
 import QuestionComponent from "../question";
 import type { Quiz, Question } from "@/app/lib/types";
 import RefreshWarning from "@/components/refresh-warning";
-import { Loader2 } from "lucide-react";
+import { ArrowDown, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -11,6 +22,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showSavePrompt, setShowSavePrompt] = useState(false);
+
+  const handleFinishAttempt = () => {
+    setShowSavePrompt(true);
+  };
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -75,11 +91,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center md:px-[25%]">
+    <div className="w-full h-fit flex flex-col items-center md:px-[25%] px-4 gap-4 py-8">
       <RefreshWarning />
       {/* Heading */}
       <div className="w-full flex flex-col items-center gap-2 border-b pb-4 md:py-8">
-        <h2 className="text-center scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+        <h2 className="text-center scroll-m-20 text-3xl  font-bold tracking-tight first:mt-0">
           {quiz.subject.name}
         </h2>
         <h2 className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
@@ -97,11 +113,59 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           />
         ))}
       </div>
-      {/* Score */}
-      <div className="w-full flex flex-col items-center gap-2 mt-4">
-        <h2 className="text-center text-xl font-semibold">
-          Score: {score} / {questions.length}
-        </h2>
+
+      {/* Finish Attempt */}
+      <Separator />
+      <Dialog>
+        <DialogTrigger className="w-full" asChild>
+          <Button className="w-full"> Finish Attempt</Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-[90%] rounded-md">
+          {!showSavePrompt ? (
+            <DialogHeader className="flex gap-2">
+              <DialogTitle>
+                Are you sure you want to finish your attempt?
+              </DialogTitle>
+              <DialogDescription className="w-full flex gap-4 items-center justify-center">
+                <Button onClick={handleFinishAttempt}>Yes</Button>
+                <DialogClose asChild>
+                  <Button variant={"secondary"}>Cancel</Button>
+                </DialogClose>
+              </DialogDescription>
+            </DialogHeader>
+          ) : (
+            <DialogHeader className="flex gap-2">
+              <DialogTitle>
+                Your score is {score} out of {questions.length}
+              </DialogTitle>
+              <DialogDescription className="w-full flex flex-col gap-4 items-center justify-center">
+                <h2>Do you want to save your attempt for future review?</h2>
+                <div className="w-full flex gap-4 justify-center">
+                  <Button>Save</Button>
+                  <DialogClose asChild>
+                    <Button variant={"secondary"}>Don&apos;t Save</Button>
+                  </DialogClose>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Floating Button to Scroll to Bottom */}
+      <div className="fixed bottom-4 right-4">
+        <Button
+          variant={"outline"}
+          onClick={() =>
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            })
+          }
+          className="rounded-full p-[11px] shadow-lg"
+        >
+          <ArrowDown />
+        </Button>
       </div>
     </div>
   );

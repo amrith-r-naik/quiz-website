@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] relative antialiased flex h-screen w-screen overflow-x-hidden overflow-y-scroll p-4`}
+        className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] relative antialiased flex h-screen w-screen overflow-x-hidden overflow-y-scroll`}
       >
         <div
           className="w-screen h-screen fixed z-50 bg-grain-image opacity-5 mix-blend-lighten pointer-events-none top-0 left-0"
