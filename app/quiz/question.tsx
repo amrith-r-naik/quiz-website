@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Question } from "../lib/types";
 import { Button } from "@/components/ui/button";
+import { Option } from "@prisma/client";
 
 const QuestionComponent = ({
   question,
@@ -12,11 +13,24 @@ const QuestionComponent = ({
   questionNumber: number;
   updateScoreOnCorrect: () => void;
 }) => {
-  const options = question.options;
+  const [shuffled, setShuffled] = useState(false);
+  const optionsRef = React.useRef<Option[]>([]);
+  useEffect(() => {
+    if (!shuffled) {
+      optionsRef.current = [...question.options].sort(
+        () => Math.random() - 0.5,
+      );
+      setShuffled(true);
+    }
+  }, [shuffled, question.options]);
+
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const handleCheck = () => {
-    if (options.find((option) => option.text === selectedOption)?.isCorrect) {
+    if (
+      optionsRef.current.find((option) => option.text === selectedOption)
+        ?.isCorrect
+    ) {
       setIsCorrect(true);
       updateScoreOnCorrect();
     } else {
@@ -33,7 +47,7 @@ const QuestionComponent = ({
         disabled={isCorrect !== null}
         className="w-full flex flex-col items-start pl-2"
       >
-        {question.options.map((option) => (
+        {optionsRef.current.map((option) => (
           <div
             key={option.id}
             className={`flex items-center space-x-2 w-full px-2 rounded-sm py-1 ${
