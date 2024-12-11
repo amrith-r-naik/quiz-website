@@ -25,18 +25,34 @@ export default function Home() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState("");
   const [subjectsLoading, setSubjectsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      setSubjectsLoading(true);
-      const response = await fetch(`/api/subjects`);
-      const data = await response.json();
-      setSubjects(data);
-      setSubjectsLoading(false);
+      try {
+        setSubjectsLoading(true);
+        setError(null); // Reset error state
+        const response = await fetch(`/api/subjects`);
+
+        if (!response.ok) {
+          const { error } = await response.json();
+          throw new Error(error || "Failed to fetch subjects");
+        }
+
+        const data = await response.json();
+        setSubjects(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred",
+        );
+      } finally {
+        setSubjectsLoading(false);
+      }
     };
 
     fetchSubjects();
   }, []);
+
   return (
     <main className="h-full w-full flex flex-col px-4 py-2 md: ">
       {/* Hero Section */}
@@ -51,7 +67,7 @@ export default function Home() {
         <Accordion
           type="single"
           collapsible
-          className="md:border md:rounded-md md:h-[80%] px-2 py-4 md:overflow-y-auto md:min-w-[30%] "
+          className="md:border md:rounded-md md:h-[80%] px-2 py-4 md:overflow-y-auto md:min-w-[30%]"
         >
           <div className="hidden md:flex justify-center border-b pb-4">
             <p className="text-center w-fit rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
@@ -62,6 +78,16 @@ export default function Home() {
             <div className="flex gap-2 opacity-30 justify-center items-center md:min-h-[88%]">
               <Loader2 className="animate-spin" />
               <span className="">Loading subjects...</span>
+            </div>
+          )}
+          {error && (
+            <div className="flex gap-2 justify-center items-center md:min-h-[88%]">
+              <p className="text-destructive">Error : {error}</p>
+            </div>
+          )}
+          {subjects.length === 0 && !subjectsLoading && !error && (
+            <div className="flex gap-2 justify-center items-center md:min-h-[88%]">
+              <p className="text-muted-foreground">No subjects available</p>
             </div>
           )}
           {subjects.map((subject: Subject) => (

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
 
 // Get all subjects
 export const GET = async () => {
@@ -10,35 +9,44 @@ export const GET = async () => {
     });
     return NextResponse.json(subjects);
   } catch (error) {
+    console.error("Failed to fetch subjects:", (error as Error).message);
     return new NextResponse(
       JSON.stringify({
         error: "Failed to fetch subjects",
         details: (error as Error).message,
       }),
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 };
 
 // Create a new subject
 export const POST = async (req: NextRequest) => {
-  const body = await req.json();
-  const { name } = body;
   try {
+    const body = await req.json();
+    const { name } = body;
+
+    if (!name || typeof name !== "string") {
+      return new NextResponse(
+        JSON.stringify({
+          error: "Invalid input: 'name' is required and must be a string",
+        }),
+        { status: 400 },
+      );
+    }
+
     const subject = await prisma.subject.create({
-      data: {
-        name,
-      },
+      data: { name },
     });
-    return NextResponse.json(subject);
+    return NextResponse.json(subject, { status: 201 });
   } catch (error) {
+    console.error("Failed to create subject:", (error as Error).message);
     return new NextResponse(
-      JSON.stringify({ error: "Failed to create subject" }),
-      {
-        status: 500,
-      },
+      JSON.stringify({
+        error: "Failed to create subject",
+        details: (error as Error).message,
+      }),
+      { status: 500 },
     );
   }
 };
