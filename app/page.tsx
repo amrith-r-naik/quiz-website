@@ -36,14 +36,16 @@ export default function Home() {
     fetchSubjects();
   }, []);
   return (
-    <main className="h-full w-full flex flex-col">
+    <main className="h-full w-full flex flex-col px-4 py-2">
       {/* Hero Section */}
       <div className="h-full flex flex-col justify-center gap-8">
-        <h1 className="text-5xl font-black">Practice those MCQ subjects</h1>
+        <h1 className="text-5xl font-black text-center">
+          Practice those MCQ subjects
+        </h1>
         <Accordion type="single" collapsible>
           {subjects.map((subject: Subject) => (
             <AccordionItem key={subject.id} value={subject.id}>
-              <AccordionTrigger className="hover:no-underline font-bold py-2">
+              <AccordionTrigger className="hover:no-underline font-bold py-2 px-1 text-left">
                 {subject.name}
               </AccordionTrigger>
               {subject.quizzes.length > 0 ? (

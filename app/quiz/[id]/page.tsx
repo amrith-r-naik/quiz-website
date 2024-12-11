@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import QuestionComponent from "../question";
 import type { Quiz, Question } from "@/app/lib/types";
 import RefreshWarning from "@/components/refresh-warning";
-import { ArrowDown, Loader2 } from "lucide-react";
+import { ArrowDown, Home, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -23,6 +24,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showSavePrompt, setShowSavePrompt] = useState(false);
+  const router = useRouter();
 
   const handleFinishAttempt = () => {
     setShowSavePrompt(true);
@@ -138,14 +140,19 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <DialogTitle>
                 Your score is {score} out of {questions.length}
               </DialogTitle>
-              <DialogDescription className="w-full flex flex-col gap-4 items-center justify-center">
-                <h2>Do you want to save your attempt for future review?</h2>
+              <DialogDescription className="w-full flex gap-4 items-center justify-center">
+                {/* <h2>Do you want to save your attempt for future review?</h2>
                 <div className="w-full flex gap-4 justify-center">
                   <Button>Save</Button>
                   <DialogClose asChild>
                     <Button variant={"secondary"}>Don&apos;t Save</Button>
                   </DialogClose>
-                </div>
+                </div> */}
+                <Button onClick={() => router.refresh()}>Attempt again</Button>
+                <Button variant={"outline"} onClick={() => router.push("/")}>
+                  <Home />
+                  Home
+                </Button>
               </DialogDescription>
             </DialogHeader>
           )}
