@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Github, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,20 +38,32 @@ export default function Home() {
     fetchSubjects();
   }, []);
   return (
-    <main className="h-full w-full flex flex-col px-4 py-2">
+    <main className="h-full w-full flex flex-col px-4 py-2 md: ">
       {/* Hero Section */}
-      <div className="h-full flex flex-col justify-center gap-8">
-        <h1 className="text-5xl font-black text-center">
-          Practice those MCQ subjects
-        </h1>
+      <div className="h-full flex flex-col justify-center gap-8 md:flex-row md:items-center md:w-[99%]">
+        <div className="md:max-w-[30%] flex flex-col justify-start text-center w-full md:text-left md:gap-2 -translate-y-4">
+          <h1 className="text-5xl font-black">Practice those MCQ subjects</h1>
+          <p className="hidden md:block text-xl text-muted-foreground">
+            Click on a subject to view available quizes.
+          </p>
+        </div>
 
-        {subjectsLoading && (
-          <div className="flex gap-2 opacity-30 justify-center items-center">
-            <Loader2 className="animate-spin" />
-            <span className="">Loading subjects...</span>
+        <Accordion
+          type="single"
+          collapsible
+          className="md:border md:rounded-md md:h-[80%] px-2 py-4 md:overflow-y-auto md:min-w-[30%] "
+        >
+          <div className="hidden md:flex justify-center border-b pb-4">
+            <p className="text-center w-fit rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+              Available Subjects
+            </p>
           </div>
-        )}
-        <Accordion type="single" collapsible>
+          {subjectsLoading && (
+            <div className="flex gap-2 opacity-30 justify-center items-center md:min-h-[88%]">
+              <Loader2 className="animate-spin" />
+              <span className="">Loading subjects...</span>
+            </div>
+          )}
           {subjects.map((subject: Subject) => (
             <AccordionItem key={subject.id} value={subject.id}>
               <AccordionTrigger className="hover:no-underline font-bold py-2 px-1 text-left">
@@ -98,8 +110,12 @@ export default function Home() {
       <div className="text-lg flex gap-2 w-full justify-center items-center">
         <Link
           href="https://github.com/amrith-r-naik/quiz-website"
-          className="text-sm hover:underline underline md:no-underline"
+          className="text-sm hover:underline underline md:no-underline flex items-center justify-center gap-1"
         >
+          <Github
+            size={28}
+            className="border p-[5px] hover:bg-secondary rounded-full"
+          />
           Github
         </Link>
       </div>

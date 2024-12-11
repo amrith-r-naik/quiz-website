@@ -18,8 +18,12 @@ const MobileNavbar = () => {
     router.push("/");
   };
   return (
-    <div className="fixed top-0 border-b w-full items-center h-14 px-4 flex justify-between bg-background/70 backdrop-blur-xl shadow-lg z-50">
-      <Home className="opacity-80" size={20} onClick={handleRedirectHome} />
+    <div className="fixed top-0 border-b w-full items-center h-14 px-4 flex justify-between bg-background/70 backdrop-blur-xl shadow-lg z-40">
+      <Home
+        className="opacity-80 hover:opacity-100 hover:cursor-pointer"
+        size={20}
+        onClick={handleRedirectHome}
+      />
       <ModeSwitcherButton />
     </div>
   );

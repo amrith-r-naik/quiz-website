@@ -41,7 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MobileNavbar />
-          <div className="mt-14">{children}</div>
+          <div className="mt-14 w-full">{children}</div>
         </ThemeProvider>
       </body>
     </html>

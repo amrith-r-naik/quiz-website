@@ -122,10 +122,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <DialogTrigger className="w-full" asChild>
           <Button className="w-full"> Finish Attempt</Button>
         </DialogTrigger>
-        <DialogContent className="max-w-[90%] rounded-md">
+        <DialogContent className="max-w-[90%] md:max-w-[20%] rounded-md">
           {!showSavePrompt ? (
             <DialogHeader className="flex gap-2">
-              <DialogTitle>
+              <DialogTitle className="text-center">
                 Are you sure you want to finish your attempt?
               </DialogTitle>
               <DialogDescription className="w-full flex gap-4 items-center justify-center">
@@ -137,7 +137,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </DialogHeader>
           ) : (
             <DialogHeader className="flex gap-2">
-              <DialogTitle>
+              <DialogTitle className="text-center">
                 Your score is {score} out of {questions.length}
               </DialogTitle>
               <DialogDescription className="w-full flex gap-4 items-center justify-center">
@@ -148,7 +148,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <Button variant={"secondary"}>Don&apos;t Save</Button>
                   </DialogClose>
                 </div> */}
-                <Button onClick={() => router.refresh()}>Attempt again</Button>
+                <Button
+                  onClick={() => {
+                    setScore(0);
+                    setShowSavePrompt(false);
+                    router.refresh();
+                  }}
+                >
+                  Attempt again
+                </Button>
                 <Button variant={"outline"} onClick={() => router.push("/")}>
                   <Home />
                   Home
