@@ -26,7 +26,31 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [showSavePrompt, setShowSavePrompt] = useState(false);
   const router = useRouter();
 
-  const handleFinishAttempt = () => {
+  const handleFinishAttempt = async () => {
+    try {
+      const response = await fetch("/api/quizAttempt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quizId: quiz?.id,
+          score: score,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to save quiz attempt: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log("Quiz attempt saved:", result);
+    } catch (err) {
+      console.error(
+        (err as Error).message ||
+          "An unexpected error occurred while saving quiz attempt",
+      );
+    }
     setShowSavePrompt(true);
   };
 
