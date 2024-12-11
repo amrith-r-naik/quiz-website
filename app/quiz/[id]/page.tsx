@@ -42,9 +42,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       if (!response.ok) {
         throw new Error(`Failed to save quiz attempt: ${response.statusText}`);
       }
-
-      const result = await response.json();
-      console.log("Quiz attempt saved:", result);
     } catch (err) {
       console.error(
         (err as Error).message ||
