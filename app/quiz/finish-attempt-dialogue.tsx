@@ -1,14 +1,14 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
+import { Home, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 type FinishAttemptDialogProps = {
   score: number;
@@ -25,7 +25,11 @@ const FinishAttemptDialog = ({
   onReset,
   onHome,
 }: FinishAttemptDialogProps) => {
+  const [confirmSave, setConfirmSave] = useState(false);
+  const [attemptSaving, setAttemptSaving] = useState(false);
+
   const handleSaveAttempt = async () => {
+    setAttemptSaving(true);
     try {
       const response = await fetch("/api/quizAttempt", {
         method: "POST",
@@ -47,32 +51,52 @@ const FinishAttemptDialog = ({
           "An unexpected error occurred while saving quiz attempt",
       );
     }
+    setConfirmSave(true); // Reset confirmation state
+    setAttemptSaving(false);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger className="w-full" asChild>
-        <Button className="w-full" onClick={handleSaveAttempt}>
-          Finish Attempt
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-[90%] md:max-w-[20%] rounded-md">
-        <DialogHeader className="flex gap-2">
-          <DialogTitle className="text-center">
-            Your score is {score} out of {totalQuestions}
-          </DialogTitle>
-          <DialogDescription className="w-full flex gap-4 items-center justify-center">
-            <DialogClose asChild onClick={onReset}>
-              <Button>Attempt again</Button>
-            </DialogClose>
-            <Button variant="outline" onClick={onHome}>
-              <Home />
-              Home
-            </Button>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog>
+      <AlertDialogTrigger className="w-full" asChild>
+        <Button className="w-full">Finish Attempt</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="max-w-[90%] md:max-w-[20%] rounded-md justify-center">
+        <AlertDialogHeader className="flex gap-2">
+          <AlertDialogTitle className="text-center">
+            {!confirmSave
+              ? "Are you sure you want to save your attempt?"
+              : `Your score is ${score} out of ${totalQuestions}`}
+          </AlertDialogTitle>
+          <AlertDialogDescription className="w-full flex gap-4 items-center justify-center">
+            {!confirmSave ? (
+              <>
+                <Button onClick={handleSaveAttempt}>
+                  {attemptSaving ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Yes, Save"
+                  )}
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => setConfirmSave(false)}
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button onClick={onReset}>Attempt Again</Button>
+                <Button variant="outline" onClick={onHome}>
+                  <Home />
+                  Home
+                </Button>
+              </>
+            )}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
