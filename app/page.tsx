@@ -101,28 +101,30 @@ export default function Home() {
                     className="flex flex-col gap-2 px-4
                   "
                   >
-                    {subject.quizzes.map((quiz) => (
-                      <li
-                        key={quiz.id}
-                        className="flex w-full justify-between items-center"
-                      >
-                        <p className="text-md">{quiz.name}</p>
-                        <Button
-                          size={"sm"}
-                          onClick={() => {
-                            router.push(`/quiz/${quiz.id}`);
-                            setLoading(quiz.id);
-                          }}
-                          className="w-20"
+                    {subject.quizzes
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((quiz) => (
+                        <li
+                          key={quiz.id}
+                          className="flex w-full justify-between items-center"
                         >
-                          {loading === quiz.id ? (
-                            <Loader2 className="animate-spin" />
-                          ) : (
-                            "Attempt"
-                          )}
-                        </Button>
-                      </li>
-                    ))}
+                          <p className="text-md">{quiz.name}</p>
+                          <Button
+                            size={"sm"}
+                            onClick={() => {
+                              router.push(`/quiz/${quiz.id}`);
+                              setLoading(quiz.id);
+                            }}
+                            className="w-20"
+                          >
+                            {loading === quiz.id ? (
+                              <Loader2 className="animate-spin" />
+                            ) : (
+                              "Attempt"
+                            )}
+                          </Button>
+                        </li>
+                      ))}
                   </ul>
                 </AccordionContent>
               ) : (

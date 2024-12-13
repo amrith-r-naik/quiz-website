@@ -2,24 +2,24 @@ import prisma from "@/app/lib/prisma";
 import fs from "fs";
 
 async function main() {
-  await prisma.quizAttempt.deleteMany();
-  await prisma.option.deleteMany();
-  await prisma.question.deleteMany();
-  await prisma.quiz.deleteMany();
-  await prisma.subject.deleteMany();
-  await prisma.user.deleteMany();
+  // await prisma.quizAttempt.deleteMany();
+  // await prisma.option.deleteMany();
+  // await prisma.question.deleteMany();
+  // await prisma.quiz.deleteMany();
+  // await prisma.subject.deleteMany();
+  // await prisma.user.deleteMany();
 
   // Create Subject
   const subject = await prisma.subject.create({
     data: {
-      name: "Principles of Artificial Intelligence - AD2003-1",
+      name: "Operating System - AD1101-1",
     },
   });
 
   // Create Quiz
   const quiz = await prisma.quiz.create({
     data: {
-      name: "All Units",
+      name: "Unit 1",
       subjectId: subject.id,
     },
   });
