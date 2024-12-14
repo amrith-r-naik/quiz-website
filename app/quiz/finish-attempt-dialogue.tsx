@@ -64,7 +64,7 @@ const FinishAttemptDialog = ({
         <AlertDialogHeader className="flex gap-2">
           <AlertDialogTitle className="text-center">
             {!confirmSave
-              ? "Are you sure you want to save your attempt?"
+              ? "Are you sure you want to finish your attempt?"
               : `Your score is ${score} out of ${totalQuestions}`}
           </AlertDialogTitle>
           <AlertDialogDescription className="w-full flex gap-4 items-center justify-center">
@@ -74,7 +74,7 @@ const FinishAttemptDialog = ({
                   {attemptSaving ? (
                     <Loader2 className="animate-spin" />
                   ) : (
-                    "Yes, Save"
+                    "Yes, Submit"
                   )}
                 </Button>
                 <Button
