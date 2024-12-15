@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Github, Loader2 } from "lucide-react";
+import { Github, Loader2, Palette } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -136,6 +136,15 @@ export default function Home() {
       </div>
 
       <div className="text-lg flex gap-2 w-full justify-center items-center">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.push('/theme')}
+          className="mr-2"
+          title="Customize Theme"
+        >
+          <Palette className="h-5 w-5" />
+        </Button>
         <Link
           href="https://github.com/amrith-r-naik/quiz-website"
           className="text-sm hover:underline underline md:no-underline flex items-center justify-center gap-1"
@@ -149,4 +158,4 @@ export default function Home() {
       </div>
     </main>
   );
-}
+}     
