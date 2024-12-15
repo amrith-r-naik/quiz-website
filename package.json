@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start-db": "docker-compose up -d",
+    "stop-db": "docker-compose down"
   },
   "dependencies": {
     "@prisma/client": "6.0.1",

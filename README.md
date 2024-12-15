@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Practice MCQs Website
 
-## Getting Started
+🌟 This GitHub repository contains a project designed for practicing MCQs related to our subjects in a quiz format. It provides an engaging alternative to studying from question bank PDFs. As the admin, I will upload quizzes for practice, and you can use this platform to enhance your learning experience.
 
-First, run the development server:
+## Overview 💡
+
+This is a [Next.js 15](https://nextjs.org) project built with TypeScript. It leverages the following technologies:
+
+- **Prisma ORM** for database management.
+- **Tailwind CSS** and **Shadcn UI** for the frontend.
+- **Docker** to set up a local database for development.
+
+💡 Follow these steps to set up the project locally:
+
+### 1. Prerequisites 🔧
+
+Ensure you have the following installed:
+
+- **[pnpm](https://pnpm.io/)** package manager. If you already have Node.js installed, install `pnpm` globally:
+  ```bash
+  npm install -g pnpm
+  ```
+- **[Docker](https://www.docker.com/)**: Used to create and manage the local PostgreSQL database.
+
+### 2. Fork and Clone the Repository 🔼
+
+1. Fork this repository to your GitHub account.
+2. Clone your forked repository:
+   ```bash
+   git clone <your-fork-url>
+   ```
+3. Navigate into the project directory:
+   ```bash
+   cd <project-directory>
+   ```
+
+### 3. Install Dependencies 📝
+
+Install all the required dependencies using `pnpm`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. Set Up the Local Database 🏛️
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make sure Docker is running (e.g., open Docker Desktop on Windows) and execute:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm start-db
+```
 
-## Learn More
+This will create and run a PostgreSQL container with the necessary configuration.
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Configure the Environment Variables 🔒
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a `.env` file in the root of the project and add the following:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+DATABASE_URL="postgresql://dev_user:dev_password@localhost:5432/quiz_db"
+```
 
-## Deploy on Vercel
+Make sure the credentials match those defined in the `docker-compose.yaml` file.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 6. Migrate the Prisma Schema 🔄
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Initialize the database schema by running the Prisma migration:
+
+```bash
+pnpx prisma migrate dev
+```
+
+This sets up the database tables as defined in the Prisma schema.
+
+### 7. Run the Development Server 🚀
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+## Learn More 📖
+
+Explore the following resources to learn more about the technologies used in this project:
+
+- [Next.js Documentation](https://nextjs.org/docs) - A React framework for building full-stack web applications.
+- [Prisma Documentation](https://www.prisma.io/docs) - A modern Node.js and TypeScript ORM.
+- [Docker Documentation](https://docs.docker.com/) - An open platform for developing, shipping, and running applications.
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation) - A utility-first CSS framework.
+- [Shadcn/UI Documentation](https://ui.shadcn.com/docs) - A collection of reusable components.
+
+## Deployment 🌐
+
+The website is deployed on Vercel. You can visit it here:
+[https://those-mcq-subjects.vercel.app](https://those-mcq-subjects.vercel.app).
+
+---
+
+Feel free to contribute by opening issues or submitting pull requests to improve the project! 🙌
